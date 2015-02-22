@@ -1,0 +1,33 @@
+﻿@using Kendo.Mvc.UI
+
+<div class=""></div>
+<div class="row">
+    <!-- Top Row:Menu-->
+    <div id="menubar" class="col-lg-12">
+        <div>&nbsp;</div>
+        <div class="form-inline" role="form">
+            @(Html.Kendo().Menu()
+                  .Name("MainMenu")
+                  .Items(item =>
+                  {
+                      item.Add().Text("Dashboard").Action("Dashboard", "Admin");
+                      item.Add().Text("Users").Action("Users", "Admin");
+                      item.Add().Text("Product Management").Items(child =>
+                      {
+                          child.Add().Text("Categories").Action("Categories", "Admin");
+                          child.Add().Text("Brands").Action("Brands", "Admin");
+                          child.Add().Text("Items").Action("Items", "Admin").Items(
+                              sub => sub.Add().Text("Upload").Action("ItemUpload", "Admin"));
+                          
+                      });
+                      item.Add().Text("Log Out").Action("LogOut", "Admin");
+                  }
+                  )
+                  .Orientation(MenuOrientation.Horizontal)
+            )
+        </div>
+    </div>
+    <div id="DashboardBody" class="col-md-10">
+        <div>Welcome, Admin!</div>
+    </div>
+</div>

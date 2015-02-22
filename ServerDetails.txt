@@ -1,0 +1,16 @@
+IP address :213.136.86.2 
+server type : VPS M
+VNC IP and port : 213.136.68.241:63001
+VNC password : FtpM6l7yCqiac
+user name : Administrator
+password : FtpM6l7yCqiac
+operating system : Windows Server 2012 R2 Datacenter Edition (64 Bit)
+
+FTP
+user: ftpuser
+password: P@ssw04d
+
+
+MySQL
+user: root
+password: jamsan2309

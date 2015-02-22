@@ -1,0 +1,100 @@
+﻿@using Kendo.Mvc
+@model MVC_BathCompareSIte.DTO.UserDTO
+           
+<div class="form-horizontal">
+    <p class="lead text-info">Login Information</p>
+    @Html.HiddenFor(model => model.UserId)
+    <div class="form-group">
+        @Html.LabelFor(model => model.Email, new {@class = "col-md-3 control-label"})
+        <div class="col-md-4">
+            @Html.TextBoxFor(model => model.Email, new { @class = "form-control input-sm", @readonly = "readonly" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Password, new { @class = "col-md-3 control-label" })
+        <div class="col-md-4">
+            @Html.TextBoxFor(model => model.Password, new { @class = "form-control input-sm", type = "password" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="" class="col-md-3 control-label">User Type</label>
+        <div class="col-md-4">
+            <input id="userType"/>
+        </div>
+    </div>
+    <p class="lead text-info">Personal Information</p>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Firstname, new { @class = "col-md-3 control-label" })
+        <div class="col-md-4">
+            @Html.TextBoxFor(model => model.Firstname, new { @class = "form-control input-sm" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Lastname, new { @class = "col-md-3 control-label" })
+        <div class="col-md-4">
+            @Html.TextBoxFor(model => model.Lastname, new { @class = "form-control input-sm" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Address, new { @class = "col-md-3 control-label" })
+        <div class="col-md-4">
+            @Html.TextAreaFor(model => model.Address, new { @class = "form-control input-sm", rows = "8", style = "width:200px;" })
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        /*Reset password value every open of the popup*/
+        $("#Password").val('');
+
+        $("#userType").kendoComboBox({
+            dataTextField: "Name",
+            dataValueField: "Id",
+            index: 1
+        });
+
+        getUserTypes();
+    });
+
+    function getUserTypes() {
+        $.ajax({
+            url: "@Url.Action("GetUserType", "Admin")",
+            type: 'POST',
+        contentType: 'application/json',
+        success: function(result) {
+            var dd = $('#userType').data("kendoComboBox");
+            dd.setDataSource(result);
+
+            var pVal = $('#type_id').val();
+            if (pVal > 0) {
+                dd.value(pVal);
+            } else {
+                dd.value(2);
+            }
+        },
+        error: function (res) {
+            alert('[UserTypes]fail: '+ res.responseText);
+        }
+    });
+    }
+
+    //$("#Password").blur(function() {
+    //    var inputVal = $(this).val();
+
+    //    if (inputVal.length > 0) {
+    //        $("#cPassBlock").show(200);
+    //        $("#ConfirmPassword").focus();
+    //    }
+    //});
+
+    $(".k-grid-update").on("click", function () {
+        var selType = $("#userType").data("kendoComboBox");
+        var selValue = "";
+
+        if ($.isNumeric(selType.value())) {
+            selValue = selType.value();
+            $("#type_id").val(selValue);
+            $("#type_id").trigger('change');
+        }
+    });
+</script>

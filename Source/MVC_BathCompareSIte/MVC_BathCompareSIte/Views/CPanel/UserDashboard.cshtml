@@ -1,0 +1,71 @@
+﻿@using Kendo.Mvc.UI
+@model MVC_BathCompareSIte.DTO.UserDTO
+
+@{
+    ViewBag.Title = "UserDashboard";
+    Layout = "~/Views/Shared/_LayoutControlPanel.cshtml";
+}
+
+<h4>Recently Added Items</h4>
+<div id="zeroRecords">No Records found.</div>
+<div id="recentItems"></div>
+<div id="itemPager"></div>
+<script type="text/x-kendo-tmpl" id="template">
+    <div class="productDetails">
+        <img src="${Image}" alt="${Name} image" />
+        <h3>${Name}</h3>
+        <p>${Price},${Condition} - ${Availability}</p>
+    </div>
+</script>
+
+<script type="text/javascript">
+    var userParam = {
+        Id: '',
+        ItemCount: ''
+    };
+
+    $(document).ready(function() {
+        $("#zeroRecords").hide();
+
+        loadRecentItems();
+    });
+
+    function loadRecentItems() {
+        userParam["Id"] = "@Url.RequestContext.RouteData.Values["id"]";
+
+        $.ajax({
+            url: "@Url.Action("GetItemList","CPanel")",
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(userParam),
+            success: function (result) {
+                if (result.TotalCount > 0) {
+                    LoadProducts(result);
+                } else {
+                    $("#zeroRecords").show();
+                }
+
+            },
+            error: function (res) {
+                alert('[loadRecentItems]fail:' + res.responseText);
+            }
+        });
+    }
+
+    function LoadProducts(result) {
+        var ds = new kendo.data.DataSource({
+            data: result.DtoList,
+            pageSize: 4
+        });
+
+        $("#recentItems").kendoListView({
+            dataSource: ds,
+            pageable: true,
+            template: kendo.template($("#template").html())
+        });
+
+        $("#itemPager").kendoPager({
+            dataSource: ds
+        });
+    }
+</script>

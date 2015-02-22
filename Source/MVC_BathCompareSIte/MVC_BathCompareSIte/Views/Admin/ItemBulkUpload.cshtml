@@ -1,0 +1,33 @@
+﻿@using System.Web.UI.WebControls
+@using Kendo.Mvc.UI
+@model MVC_BathCompareSIte.Forms.UploadFileForm
+
+<h3>@ViewBag.Title</h3>
+@RenderPage("../Shared/_DashboardMenu.cshtml")
+<br/>
+<div id="note" class="row">
+    <div class="col-md-8  text-left">
+        @Html.Raw(ViewBag.Notes)
+    </div>
+</div>
+<div id="uploadBlock" class="row">
+    @using (Html.BeginForm("ImportFile", "Admin", FormMethod.Post, new {enctype = "multipart/form-data"}))
+    {
+        <div class="col-md-3">
+            @Html.TextBoxFor(x => x.uploadedFile, new { @class = "form-control", type = "file", placeholder = "File to upload..." })
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary">Upload</button>
+        </div>
+    }
+</div>
+<div class="row">
+    <div class="col-md-3">
+        <div class="text-danger">
+            @Html.ValidationMessageFor(x => x.uploadedFile)
+        </div>
+        <div class="text-success">
+            @ViewBag.SuccessMessage
+        </div>
+    </div>
+</div>

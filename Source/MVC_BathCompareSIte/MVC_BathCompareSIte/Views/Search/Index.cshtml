@@ -1,0 +1,211 @@
+﻿@using System.Web.UI.WebControls
+@using Kendo.Mvc.UI
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <!-- Top Row:Content-->
+    <div id="searcHeader" class="col-lg-12">
+        <div>&nbsp;</div>
+        <div class="col-lg-offset-5">
+            <div class="form-inline" role="form">
+                <div class="form-group">
+                    <div class="input-group">
+                        <input class="form-control" id="txtSearch" placeholder="item name or description">
+                    </div>
+                </div>
+                <input type="submit" id="btnSearch" value="Search" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+    <!--Right Column:Tools-->
+    <div id="searchTools" class="col-md-3">
+        <hr/>
+        <div class="input-group">
+            <h5>Price Range</h5>
+            @Html.Kendo().Slider().Name("kSlider")
+            <p>&nbsp;</p>
+        </div>
+        <div class="input-group">
+            <h5>Category</h5>
+            <input id="categories" placeholder="Select a category..." />
+            <p>&nbsp;</p>
+        </div>
+        <div class="input-group">
+            <h5>Brands</h5>
+        </div>
+        <div class="input-group">
+            <input type="submit" id="btnFilter" value="Filter Search" class="btn-sm btn-primary"/>
+        </div>
+    </div>
+    <!-- Left Column:Data-->
+    <div id="searchData" class="col-md-9">
+        <hr/>
+        <h4>Search Results</h4>
+        <div>
+            <select id="otherFilter">
+                <option value=" ">-------</option>
+                <option value="priceDown">Price: High to Low</option>
+                <option value="priceUp">Price: Low to High</option>
+                <option value="rateDown">Popularity: High to Low</option>
+                <option value="rateUp">Popularity: Low to High</option>
+            </select>
+        </div>
+        <div>
+            <script type="text/x-kendo-tmpl" id="template">
+                <div class="productDetails">
+                    <img src="@Url.Content("~/Assets/Images/")${ItemCode}.jpg" alt="${Name} image" />
+                    <h3>${Name} - ${Price1}</h3>
+                    <p>${Description}</p>
+                </div>
+            </script>
+            
+           <div id="productList"></div>
+           <div id="pager" class="k-pager-wrap"></div>
+            
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $("#iSearch").click(function() {
+        alert("clicked");
+    });
+
+    var searchParam = {
+        ProductName: '',
+        CategoryId: '',
+        PriceMinimum: '',
+        PriceMaximum: '',
+        BrandId: '',
+        OtherFilter: ''
+    };
+
+    function SearchParamInit() {
+        searchParam["ProductName"] = '';
+        searchParam["CategoryId"] = '';
+        searchParam["PriceMinimum"] = '';
+        searchParam["PriceMaximum"] = '';
+        searchParam["BrandId"] = '';
+        searchParam["OtherFilter"] = '';
+    }
+
+    $(document).ready(function () {
+        //Set placeholders for browsers having issues with Html5
+        $('#txtSearch').placeholder();
+
+        //Set the categories dropdown
+        $("#categories").kendoComboBox({
+            dataTextField: "Name",
+            dataValueField: "Id",
+            filter: "contains",
+            suggest: true,
+        });
+
+        //Populate the categories dropdown
+        GetCategories();
+
+        $("#btnFilter").click(function() {
+            var cateVal = $("#categories").data("kendoComboBox");
+            searchParam["ProductName"] = $("#txtSearch").val();
+            searchParam["CategoryId"] = cateVal.value();
+            searchParam["OtherFilter"] = $("#otherFilter").val();
+
+            $.ajax({
+                url: "@Url.Action("GetProducts","Search")",
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(searchParam), //JSON.stringify({ 'key': param, '' }),
+                success: function(result) {
+                    SearchProducts(result);
+                },
+                error: function (res) {
+                    SearchParamInit();
+                    alert('[Filter]fail: ' + res.responseText);
+                }
+            });
+        });
+
+        $("#btnSearch").click(function() {
+            var cateVal = $("#categories").data("kendoComboBox");
+            searchParam["ProductName"] = $("#txtSearch").val();
+            searchParam["CategoryId"] = cateVal.value();
+            searchParam["OtherFilter"] = $("#otherFilter").val();
+
+            $.ajax({
+                url: "@Url.Action("GetProducts","Search")",
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(searchParam), //JSON.stringify({ 'key': param, '' }),
+                success: function(result) {
+                    SearchProducts(result);
+                },
+                error: function (res) {
+                    SearchParamInit();
+                    alert('[Search]fail: ' + res.responseText);
+                }
+            });
+        });
+
+    });//end of document-ready
+
+    $("#otherFilter").on('change', function () {
+        var otFilter = $(this).val();
+        var cateVal = $("#categories").data("kendoComboBox");
+        
+        searchParam["ProductName"] = $("#txtSearch").val();
+        searchParam["CategoryId"] = cateVal.value();
+        searchParam["OtherFilter"] = otFilter;
+
+        $.ajax({
+            url: "@Url.Action("GetProducts","Search")",
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(searchParam),
+            success: function(result) {
+                SearchProducts(result);
+            },
+            error: function (res) {
+                SearchParamInit();
+                alert('[OtherFilter]fail:' + res.responseText);
+            }
+        });
+
+    });
+
+    function GetCategories() {
+        $.ajax({
+            url: "@Url.Action("GetCategories","Search")",
+            type: 'POST',
+            contentType: 'application/json',
+            success: function(result) {
+                var dd = $('#categories').data("kendoComboBox");
+                dd.setDataSource(result);
+            },
+            error: function (res) {
+                alert('[Categories]fail: '+ res.responseText);
+            }
+        });
+    }
+
+    function SearchProducts(result) {
+        var ds = new kendo.data.DataSource({
+            data: result,
+            pageSize: 8
+        });
+
+        $("#productList").kendoListView({
+            dataSource: ds,
+            pageable: true,
+            template: kendo.template($("#template").html())
+        });
+
+        $("#pager").kendoPager({
+            dataSource: ds
+        });
+
+        SearchParamInit();
+    }
+</script>

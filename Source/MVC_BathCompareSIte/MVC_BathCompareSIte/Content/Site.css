@@ -1,0 +1,172 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+#listView {
+    padding: 10px;
+    margin-bottom: -1px;
+    -moz-min-width: 555px;
+    -ms-min-width: 555px;
+    -o-min-width: 555px;
+    -webkit-min-width: 555px;
+    min-width: 555px;
+    min-height: 510px;
+    border-style: none;
+}
+
+.productDetails {
+    float: left;
+    position: relative;
+    width: 211px;
+    height: 250px;
+    margin: 0;
+    padding: 0;
+}
+
+.productDetails img {
+    width: 200px;
+    height: 200px;
+}
+
+.productDetails #prodTitle {
+    /*overflow: hidden;
+    line-height: 1.1em;*/
+    font-size: 14px;
+    font-weight: normal;
+    text-transform: uppercase;
+    color: #999;
+    width: 200px;
+}
+
+a.itemLink {
+    font-size: 14px;
+    text-decoration: none;
+    color: black;
+    cursor: pointer;
+}
+
+a.itemLink:hover,
+a.itemLink:link,
+a.itemLink:active,
+a.itemLink:visited{
+    text-decoration: none;
+    color: #0a40d8;
+    cursor: pointer;
+}
+
+.productDetails .hoverDetails {
+    visibility: hidden;
+}
+
+.productDetails:hover .hoverDetails {
+    visibility: visible;
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    top: 0;
+    margin: 0;
+    padding: 0;
+    line-height: 110px;
+    vertical-align: middle;
+    text-align: center;
+    color: #fff;
+    background-color: rgba(0,0,0,0.75);
+    -ms-transition: background .2s linear, color .2s linear;
+    -moz-transition: background .2s linear, color .2s linear;
+    -webkit-transition: background .2s linear, color .2s linear;
+    -o-transition: background .2s linear, color .2s linear;
+    transition: background .2s linear, color .2s linear;
+}
+
+.k-listview:after, .productDetails dl:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+a.pageTitle, 
+a.pageTitle:link,
+a.pageTitle:hover,
+a.pageTitle:active {
+    color: black;
+    font-style: normal;
+}
+
+#productList {
+    border: none;
+}
+
+#pager {
+    margin-top: 10px;
+    background: #ffffff;
+    border: none;
+}
+
+#pager .k-pager-info{
+    font-size: 14px;
+    color: #46110b;
+}
+
+#itemDetails {
+    margin-top: 30px;
+}
+#itemDetails .modal-dialog {
+    width: 900px;
+}
+
+#dt_itemName {
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+
+#dt_itemPrice {
+    font-size: 26px;
+}
+
+#btnBuy {
+    font-size: 34px;    
+}
+
+#dt_itemShipping,
+#dt_itemAvailable, #dt_itemCondition {
+    font-size: 14px;
+}
+
+#dt_itemDesc {
+    padding: 10px 0;
+}
+
+.img-thumbnail-details {
+  display: inline-block;
+  height: 400px;
+  max-width: 380px;
+  padding: 4px;
+  line-height: 1.428571429;
+  background-color: #ffffff;
+  border: 1px solid #dddddd;
+  border-radius: 4px;
+  -webkit-transition: all 0.2s ease-in-out;
+          transition: all 0.2s ease-in-out;
+}

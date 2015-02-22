@@ -1,0 +1,25 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>@ViewBag.Title</h3>
+@Html.TextBox("Adding Admin...", new {Id = "addResult"})
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var userDto = {
+            Email: 'admin',
+            Password: 'admin123'
+        };
+
+        $.ajax({
+            url: "@Url.Action("AddAdminUser","Home")",
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(userDto),
+            success: function(result) {
+                $("#addResult").val(result);
+            }
+        });
+    });
+</script>

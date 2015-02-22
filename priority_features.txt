@@ -1,0 +1,4 @@
+1. Add color and size as dynamic filters under a certain category
+2. Add a popup page where you put te product details
+3. on the popup page there is a Buy button that when clicked links to the merchant site
+4. copy the front page of www.beslist.nl somewhat the same (optional)

@@ -1,0 +1,63 @@
+﻿@using Kendo.Mvc.UI
+
+<h3>@ViewBag.Title</h3>
+@RenderPage("../Shared/_DashboardMenu.cshtml")
+<div id="toolbar" class="row">
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        @(Html.Kendo().Grid<MVC_BathCompareSIte.DTO.InventoryDTO>()
+              .Name("item_grid")
+              .Columns(col =>
+              {
+                  col.Bound(p => p.ItemId).Width(180);
+                  col.Bound(p => p.Name).Width(180);
+                  col.Bound(p => p.Description).Width(230);
+                  col.Bound(p => p.CateName).Width(180);
+                  col.Bound(p => p.BrandName).Width(180);
+                  col.Bound(p => p.Prices).Width(150).Encoded(false);
+                  col.Bound(p => p.Condition).Width(100);
+                  col.Bound(p => p.Availability).Width(100);
+                  col.Bound(p => p.Size).Width(100);
+                  col.Bound(p => p.ShippingInfo).Width(150).Encoded(false);
+                  col.Command(cmd =>
+                  {
+                      cmd.Edit();
+                      cmd.Destroy();
+                  }).Width(160);
+              })
+              .ToolBar(toolbar => toolbar.Create())
+              .Editable(editable => editable.Mode(GridEditMode.PopUp).TemplateName("PopupItem"))
+              .Pageable()
+              .Sortable()
+              .Scrollable(scrol => scrol.Height(500))
+              .DataSource(ds => ds
+                  .Ajax()
+                  .PageSize(10)
+                  .Events(events => events.Error("error_handler"))
+                  .Model(model => model.Id(p => p.ItemId))
+                  .Read(read => read.Action("SearchProducts", "Admin"))
+                  .Create(create => create.Action("AddInventory", "Admin"))
+                  .Update(update => update.Action("UpdateInventory", "Admin"))
+                  .Destroy(del => del.Action("DeleteInventory", "Admin"))
+              )
+        )
+    </div>
+</div>
+
+<!--Scripts-->
+<script type="text/javascript">
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+        }
+    }
+</script>
