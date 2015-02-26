@@ -6,17 +6,17 @@ by editing this MSBuild file. In order to learn more about this please visit htt
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
-    <_PublishTargetUrl>D:\@PROJECTS\TempPubFiles\V3.01</_PublishTargetUrl>
+    <_PublishTargetUrl>D:\@PROJECTS\TempPubFiles\V3.02</_PublishTargetUrl>
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/Antlr3.Runtime.dll">
       <publishTime>11/28/2014 06:33:43</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>02/21/2015 11:46:33</publishTime>
+      <publishTime>02/24/2015 12:46:17</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>02/21/2015 11:46:33</publishTime>
+      <publishTime>02/24/2015 12:46:17</publishTime>
     </File>
     <File Include="bin/bg-BG/Kendo.Mvc.resources.dll">
       <publishTime>11/19/2014 15:29:28</publishTime>
@@ -91,7 +91,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/28/2014 06:33:43</publishTime>
     </File>
     <File Include="bin/MVC_BathCompareSIte.dll">
-      <publishTime>02/21/2015 11:41:21</publishTime>
+      <publishTime>02/24/2015 12:44:44</publishTime>
     </File>
     <File Include="bin/MySql.Data.dll">
       <publishTime>11/28/2014 22:46:37</publishTime>
@@ -1009,7 +1009,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/26/2014 10:34:09</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>02/21/2015 11:46:27</publishTime>
+      <publishTime>02/24/2015 12:46:11</publishTime>
     </File>
     <File Include="Scripts/angular.min.js">
       <publishTime>11/19/2014 15:29:28</publishTime>
@@ -2862,6 +2862,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Scripts/modernizr-2.6.2.js">
       <publishTime>11/28/2014 06:33:43</publishTime>
     </File>
+    <File Include="Scripts/page.js">
+      <publishTime>02/24/2015 11:55:40</publishTime>
+    </File>
     <File Include="Scripts/respond.js">
       <publishTime>11/28/2014 06:33:44</publishTime>
     </File>
@@ -2869,7 +2872,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/28/2014 06:33:44</publishTime>
     </File>
     <File Include="Scripts/_references.js">
-      <publishTime>12/26/2014 10:34:08</publishTime>
+      <publishTime>02/24/2015 11:31:33</publishTime>
     </File>
     <File Include="Views/Account/ConfirmEmail.cshtml">
       <publishTime>11/28/2014 06:33:45</publishTime>
@@ -2953,7 +2956,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/25/2015 18:26:29</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>02/21/2015 11:41:05</publishTime>
+      <publishTime>02/24/2015 12:43:15</publishTime>
     </File>
     <File Include="Views/Manage/AddPhoneNumber.cshtml">
       <publishTime>11/28/2014 06:33:45</publishTime>
@@ -2989,7 +2992,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/01/2015 21:17:39</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>02/15/2015 00:18:26</publishTime>
+      <publishTime>02/24/2015 11:37:27</publishTime>
     </File>
     <File Include="Views/Shared/_LayoutCommon.cshtml">
       <publishTime>02/01/2015 14:59:21</publishTime>
@@ -3007,7 +3010,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/28/2014 06:33:38</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>02/21/2015 11:46:11</publishTime>
+      <publishTime>02/24/2015 12:46:05</publishTime>
     </File>
   </ItemGroup>
 </Project>

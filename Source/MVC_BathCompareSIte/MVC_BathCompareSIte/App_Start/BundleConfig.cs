@@ -32,6 +32,9 @@ namespace MVC_BathCompareSIte
                     "~/Scripts/kendo/kendo.timezones.min.js",
                     "~/Scripts/kendo/kendo.aspnetmvc.min.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/page").Include(
+                    "~/Scripts/page.js"));
+
             bundles.Add(new StyleBundle("~/Content/kendo/css").Include(
                     "~/Content/kendo/kendo.common.min.css",
                     "~/Content/kendo/kendo.rtl.min.css",

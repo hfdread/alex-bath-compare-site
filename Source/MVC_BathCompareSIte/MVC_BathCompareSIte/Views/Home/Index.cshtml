@@ -32,7 +32,7 @@
                   )
             <p>&nbsp;</p>
         </div>
-        <div class="input-group">
+        <div id="colorGroup" class="input-group">
             <h4>Color</h4>
             @(Html.Kendo().TreeView()
                   .Name("colorTreeview")
@@ -41,7 +41,7 @@
                   )
             <p>&nbsp;</p>
         </div>
-        <div class="input-group">
+        <div id="sizeGroup" class="input-group">
             <h4>Size</h4>
             @(Html.Kendo().TreeView()
                     .Name("sizeTreeview")
@@ -88,13 +88,6 @@
             </script>
             <div id="productList"></div>
             <div id="pager" class="k-pager-wrap"></div>
-        </div>
-    </div>
-    <!--Progress Bar-->
-    <div id="loadBarInfo" class="progress">
-        <div class="progress-bar progress-bar-success progress-striped" role="progressbar"
-             aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 50%;">
-            Loading Items...
         </div>
     </div>
     <!--Popup for Item Details-->
@@ -167,21 +160,20 @@
 
     $(document).ajaxError(function (evt, xhr) {
         try {
-            $('#loadBarInfo').hide();
             SearchParamInit();
             var json = $.parseJSON(xhr.responseText);
             alert(json.errorMessage);
         } catch (e) {
-            $('#loadBarInfo').hide();
             alert("something bad happened");
         }
     });
 
     $(document).ready(function () {
         //Set placeholders for browsers having issues with Html5
-        $('#loadBarInfo').hide();
         $('#txtSearch').placeholder();
         itemLink = '';
+        $('#colorGroup').hide();
+        $('#sizeGroup').hide();
     });//end of document-ready
 
     $('#btnSearch').click(function () {
@@ -192,7 +184,7 @@
         searchParam["Color"] = $('#colorSel').val();
         searchParam["Size"] = $('#sizeSel').val();
 
-        $('#loadBarInfo').show();
+        myApp.showPleaseWait();
         $.ajax({
             url: "@Url.Action("GetProducts","Home")",
             type: 'POST',
@@ -200,34 +192,14 @@
             data: JSON.stringify(searchParam), 
             success: function(result) {
                 SearchProducts(result);
-                $('#loadBarInfo').hide(300);
+                myApp.hidePleaseWait();
             }
         });
     });
 
     function onCategorySelect(e) {
         var dataItem = this.dataItem(e.node);
-
-        searchParam["ProductName"] = $('#txtSearch').val();
-        searchParam["CategoryId"] = dataItem.id;
-        searchParam["OtherFilter"] = $('#otherFilter').val();
-        searchParam["BrandId"] = $('#brandSel').val();
-        searchParam["Color"] = $('#colorSel').val();
-        searchParam["Size"] = $('#sizeSel').val();
-
         $('#cateSel').val(dataItem.id);
-
-        $('#loadBarInfo').show();
-        $.ajax({
-            url: "@Url.Action("GetProducts","Home")",
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(searchParam), 
-            success: function(result) {
-                SearchProducts(result);
-                $('#loadBarInfo').hide(300);
-            }
-        });
 
         //Get new list of colors
         $.ajax({
@@ -236,8 +208,16 @@
             contentType: 'application/json',
             data: JSON.stringify({ Id: dataItem.id }),
             success: function (colorResult) {
-                var dd = $('#colorTreeview').data('kendoTreeView');
-                dd.setDataSource(colorResult);
+                var colors = $('#colorTreeview').data('kendoTreeView');
+                colors.setDataSource(colorResult);
+
+                $('#colorSel').val('');
+                if (colorResult.length <= 0) {
+                    
+                    $('#colorGroup').hide();
+                } else {
+                    $('#colorGroup').show();
+                }
             }
         });
 
@@ -248,8 +228,35 @@
             contentType: 'application/json',
             data: JSON.stringify({ Id: dataItem.id }),
             success: function(sizeResult) {
-                var dd = $('#sizeTreeview').data('kendoTreeView');
-                dd.setDataSource(sizeResult);
+                var sizes = $('#sizeTreeview').data('kendoTreeView');
+                sizes.setDataSource(sizeResult);
+                $('#sizeSel').val('');
+
+                if (sizeResult.length <= 0) {
+                    $('#sizeGroup').hide();
+                } else {
+                    $('#sizeGroup').show();
+                }
+
+                //Search for the products
+                searchParam["ProductName"] = $('#txtSearch').val();
+                searchParam["CategoryId"] = dataItem.id;
+                searchParam["OtherFilter"] = $('#otherFilter').val();
+                searchParam["BrandId"] = $('#brandSel').val();
+                searchParam["Color"] = $('#colorSel').val();
+                searchParam["Size"] = $('#sizeSel').val();
+
+                myApp.showPleaseWait();
+                $.ajax({
+                    url: "@Url.Action("GetProducts","Home")",
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(searchParam), 
+                    success: function(result) {
+                        SearchProducts(result);
+                        myApp.hidePleaseWait();
+                    }
+                });
             }
         });
     }
@@ -266,7 +273,7 @@
 
         $('#brandSel').val(dataItem.id);
 
-        $('#loadBarInfo').show();
+        myApp.showPleaseWait();
         $.ajax({
             url: "@Url.Action("GetProducts","Home")",
             type: 'POST',
@@ -274,7 +281,7 @@
             data: JSON.stringify(searchParam), 
             success: function(result) {
                 SearchProducts(result);
-                $('#loadBarInfo').hide(300);
+                myApp.hidePleaseWait();
             }
         });
     }
@@ -291,7 +298,7 @@
 
         $('#colorSel').val(dataItem.text);
 
-        $('#loadBarInfo').show();
+        myApp.showPleaseWait();
         $.ajax({
             url: "@Url.Action("GetProducts","Home")",
             type: 'POST',
@@ -299,7 +306,7 @@
             data: JSON.stringify(searchParam), 
             success: function(result) {
                 SearchProducts(result);
-                $('#loadBarInfo').hide(300);
+                myApp.hidePleaseWait();
             }
         });
     }
@@ -316,7 +323,7 @@
 
         $('#sizeSel').val(dataItem.text);
 
-        $('#loadBarInfo').show();
+        myApp.showPleaseWait();
         $.ajax({
             url: "@Url.Action("GetProducts","Home")",
             type: 'POST',
@@ -324,7 +331,7 @@
             data: JSON.stringify(searchParam), 
             success: function(result) {
                 SearchProducts(result);
-                $('#loadBarInfo').hide(300);
+                myApp.hidePleaseWait();
             }
         });
     }
@@ -339,7 +346,7 @@
         searchParam["Color"] = $('#colorSel').val();
         searchParam["Size"] = $('#sizeSel').val();
 
-        $('#loadBarInfo').show();
+        myApp.showPleaseWait();
         $.ajax({
             url: "@Url.Action("GetProducts","Home")",
             type: 'POST',
@@ -347,7 +354,7 @@
             data: JSON.stringify(searchParam),
             success: function(result) {
                 SearchProducts(result);
-                $('#loadBarInfo').hide(300);
+                myApp.hidePleaseWait();
             }
         });
 
