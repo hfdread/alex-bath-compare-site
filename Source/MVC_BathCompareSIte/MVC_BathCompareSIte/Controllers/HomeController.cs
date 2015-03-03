@@ -16,6 +16,7 @@ namespace MVC_BathCompareSIte.Controllers
         public ActionResult Index()
         {
             ViewBag.Title = "Home";
+            Session.Clear();
             return View();
         }
 
@@ -170,6 +171,20 @@ namespace MVC_BathCompareSIte.Controllers
             string result = service.AddAdmin(input);
 
             return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult Search()
+        {
+            ViewBag.Title = "Search Products";
+            ViewBag.searchKey = string.IsNullOrWhiteSpace((string) Session["sKey"]) 
+                                        ? "" : (string) Session["sKey"];
+            return View();
+        }
+
+        public JsonResult SetSearchSession(string searchKey)
+        {
+            Session["sKey"] = searchKey;
+            return Json(searchKey, JsonRequestBehavior.AllowGet);
         }
 
     }//end of class

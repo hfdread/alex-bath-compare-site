@@ -96,7 +96,9 @@ namespace MVC_BathCompareSIte.Service
                                         q.Price.Equals(0) ? "0.00" : q.Price.ToString(Common.PRICE_FMT),
                                         q.Price2.Equals(0) ? "0.00" : q.Price2.ToString(Common.PRICE_FMT),
                                         q.Eff_Date.ToShortDateString())
-                }).ToList();
+                })
+                .OrderByDescending(q => q.Index)
+                .ToList();
             }
             catch (Exception e)
             {

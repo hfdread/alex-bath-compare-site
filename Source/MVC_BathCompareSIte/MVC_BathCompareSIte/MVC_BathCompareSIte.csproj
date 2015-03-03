@@ -231,6 +231,14 @@
     <Compile Include="Utils\ValidationUtilImpl.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Images\img_cate_sample_1.jpg" />
+    <Content Include="Assets\Images\img_cate_sample_2.jpg" />
+    <Content Include="Assets\Images\img_cate_sample_3.jpg" />
+    <Content Include="Assets\Images\img_center_sample.jpg" />
+    <Content Include="Assets\Images\img_prod_sample.jpg" />
+    <Content Include="Assets\Images\img_sample.jpg" />
+    <Content Include="Assets\Images\img_sample_250x250.jpg" />
+    <Content Include="Assets\Images\img_sample_400x400.jpg" />
     <Content Include="Content\cplogin.css" />
     <Content Include="Content\kendo\Black\editor.png" />
     <Content Include="Content\kendo\Black\imagebrowser.png" />
@@ -1190,6 +1198,7 @@
     <Content Include="Views\Shared\_LayoutControlPanel.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Home\AddAdmin.cshtml" />
+    <Content Include="Views\Home\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

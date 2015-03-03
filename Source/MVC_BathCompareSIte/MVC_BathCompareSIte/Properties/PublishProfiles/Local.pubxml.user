@@ -6,17 +6,41 @@ by editing this MSBuild file. In order to learn more about this please visit htt
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
-    <_PublishTargetUrl>D:\@PROJECTS\TempPubFiles\V3.02</_PublishTargetUrl>
+    <_PublishTargetUrl>D:\@PROJECTS\TempPubFiles\V3.03</_PublishTargetUrl>
   </PropertyGroup>
   <ItemGroup>
+    <File Include="Assets/Images/img_cate_sample_1.jpg">
+      <publishTime>03/03/2015 18:54:55</publishTime>
+    </File>
+    <File Include="Assets/Images/img_cate_sample_2.jpg">
+      <publishTime>03/03/2015 19:00:58</publishTime>
+    </File>
+    <File Include="Assets/Images/img_cate_sample_3.jpg">
+      <publishTime>03/03/2015 19:14:56</publishTime>
+    </File>
+    <File Include="Assets/Images/img_center_sample.jpg">
+      <publishTime>03/03/2015 18:49:49</publishTime>
+    </File>
+    <File Include="Assets/Images/img_prod_sample.jpg">
+      <publishTime>03/02/2015 20:26:17</publishTime>
+    </File>
+    <File Include="Assets/Images/img_sample.jpg">
+      <publishTime>03/02/2015 20:53:09</publishTime>
+    </File>
+    <File Include="Assets/Images/img_sample_250x250.jpg">
+      <publishTime>03/02/2015 20:56:34</publishTime>
+    </File>
+    <File Include="Assets/Images/img_sample_400x400.jpg">
+      <publishTime>03/02/2015 20:55:38</publishTime>
+    </File>
     <File Include="bin/Antlr3.Runtime.dll">
       <publishTime>11/28/2014 06:33:43</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>02/24/2015 12:46:17</publishTime>
+      <publishTime>03/03/2015 19:19:24</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>02/24/2015 12:46:17</publishTime>
+      <publishTime>03/03/2015 19:19:24</publishTime>
     </File>
     <File Include="bin/bg-BG/Kendo.Mvc.resources.dll">
       <publishTime>11/19/2014 15:29:28</publishTime>
@@ -91,7 +115,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/28/2014 06:33:43</publishTime>
     </File>
     <File Include="bin/MVC_BathCompareSIte.dll">
-      <publishTime>02/24/2015 12:44:44</publishTime>
+      <publishTime>03/03/2015 19:18:38</publishTime>
     </File>
     <File Include="bin/MySql.Data.dll">
       <publishTime>11/28/2014 22:46:37</publishTime>
@@ -988,7 +1012,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/19/2014 15:29:28</publishTime>
     </File>
     <File Include="Content/Site.css">
-      <publishTime>02/19/2015 13:13:39</publishTime>
+      <publishTime>03/03/2015 19:11:28</publishTime>
     </File>
     <File Include="favicon.ico">
       <publishTime>11/28/2014 06:33:38</publishTime>
@@ -1009,7 +1033,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/26/2014 10:34:09</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>02/24/2015 12:46:11</publishTime>
+      <publishTime>03/03/2015 19:19:16</publishTime>
     </File>
     <File Include="Scripts/angular.min.js">
       <publishTime>11/19/2014 15:29:28</publishTime>
@@ -2863,7 +2887,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/28/2014 06:33:43</publishTime>
     </File>
     <File Include="Scripts/page.js">
-      <publishTime>02/24/2015 11:55:40</publishTime>
+      <publishTime>03/03/2015 16:39:52</publishTime>
     </File>
     <File Include="Scripts/respond.js">
       <publishTime>11/28/2014 06:33:44</publishTime>
@@ -2872,7 +2896,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/28/2014 06:33:44</publishTime>
     </File>
     <File Include="Scripts/_references.js">
-      <publishTime>02/24/2015 11:31:33</publishTime>
+      <publishTime>03/02/2015 21:36:07</publishTime>
     </File>
     <File Include="Views/Account/ConfirmEmail.cshtml">
       <publishTime>11/28/2014 06:33:45</publishTime>
@@ -2956,7 +2980,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/25/2015 18:26:29</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>02/24/2015 12:43:15</publishTime>
+      <publishTime>03/03/2015 19:16:39</publishTime>
+    </File>
+    <File Include="Views/Home/Search.cshtml">
+      <publishTime>03/03/2015 18:17:43</publishTime>
     </File>
     <File Include="Views/Manage/AddPhoneNumber.cshtml">
       <publishTime>11/28/2014 06:33:45</publishTime>
@@ -3010,7 +3037,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/28/2014 06:33:38</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>02/24/2015 12:46:05</publishTime>
+      <publishTime>03/03/2015 19:19:08</publishTime>
     </File>
   </ItemGroup>
 </Project>

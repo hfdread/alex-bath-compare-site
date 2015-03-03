@@ -170,3 +170,14 @@ a.pageTitle:active {
   -webkit-transition: all 0.2s ease-in-out;
           transition: all 0.2s ease-in-out;
 }
+
+.img-featured {
+    margin: 0 auto;
+    width: 90%;
+    height: auto;
+}
+
+.img-category-featured {
+    width: 80%;
+    height: auto;
+}
