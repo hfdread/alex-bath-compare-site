@@ -10,6 +10,8 @@
     <ProjectView>ShowAllFiles</ProjectView>
     <WebStackScaffolding_ViewDialogWidth>600</WebStackScaffolding_ViewDialogWidth>
     <NameOfLastUsedPublishProfile>Local</NameOfLastUsedPublishProfile>
+    <WebStackScaffolding_DbContextTypeFullName>MVC_BathCompareSIte.Models.ItemDbContext</WebStackScaffolding_DbContextTypeFullName>
+    <WebStackScaffolding_IsViewGenerationSelected>True</WebStackScaffolding_IsViewGenerationSelected>
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>

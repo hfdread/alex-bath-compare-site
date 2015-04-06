@@ -1,0 +1,465 @@
+﻿@using System.Web.UI.WebControls
+@using Kendo.Mvc.UI
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <!-- Top Row:Content-->
+    <div id="searcHeader" class="col-lg-12">
+        <div>&nbsp;</div>
+        <div class="col-lg-offset-5">
+            <div class="form-inline" role="form">
+                <div class="form-group">
+                    <div class="input-group">
+                        <input class="form-control" id="txtSearch" placeholder="item name or description">
+                    </div>
+                </div>
+                <button id="btnSearch" class="btn btn-primary">
+                    Search&nbsp;<i class="glyphicon glyphicon-search"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <!--Right Column:Tools-->
+    <div id="searchTools" class="col-md-3">
+        <hr />
+        <div class="input-group">
+            <h4>Categories</h4>
+            @(Html.Kendo().TreeView()
+                  .Name("categoryTreeview")
+                  .DataSource(source => source.Read(read => read.Action("_GetCategories", "Home")))
+                  .Events(events => events.Select("onCategorySelect"))
+            )
+            <p>&nbsp;</p>
+        </div>
+        <div id="colorGroup" class="input-group">
+            <h4>Color</h4>
+            @(Html.Kendo().TreeView()
+                  .Name("colorTreeview")
+                  .DataSource(source => source.Read(read => read.Action("_GetColors", "Home")))
+                  .Events(events => events.Select("onColorSelect"))
+            )
+            <p>&nbsp;</p>
+        </div>
+        <div id="sizeGroup" class="input-group">
+            <h4>Size</h4>
+            @(Html.Kendo().TreeView()
+                    .Name("sizeTreeview")
+                    .DataSource(source => source.Read(read => read.Action("_GetSizes", "Home")))
+                    .Events(events => events.Select("onSizeSelect"))
+            )
+            <p>&nbsp;</p>
+        </div>
+        <div class="input-group">
+            <h4>Brands</h4>
+            @(Html.Kendo().TreeView()
+                  .Name("brandTreeview")
+                  .DataSource(source => source.Read(read => read.Action("_GetBrandList", "Home")))
+                  .Events(events => events.Select("onBrandSelect"))
+            )
+            <p>&nbsp;</p>
+        </div>
+
+    </div>
+    <!-- Left Column:Data-->
+    <div id="searchData" class="col-md-9">
+        <hr />
+        <h4>Search Results</h4>
+        <div>
+            <select id="otherFilter">
+                <option value=" ">-------</option>
+                <option value="priceDown">Price: High to Low</option>
+                <option value="priceUp">Price: Low to High</option>
+                @*<option value="rateDown">Popularity: High to Low</option>
+                    <option value="rateUp">Popularity: Low to High</option>*@
+            </select>
+        </div>
+        <br />
+        <div>
+            <script type="text/x-kendo-tmpl" id="template">
+                <div class="productDetails">
+                    <img src="${Image}" alt="${Name} image" />
+                    <div id="prodTitle"><a onclick="getItemDetails('#=ItemId#');" class="itemLink"><strong>${Name}</strong></a></div>
+                    <p class="hoverDetails">
+                        ${Price} (${Condition}) - ${Availability}
+                        @*Rating:*@
+                    </p>
+                </div>
+            </script>
+            <div id="productList"></div>
+            <div id="pager" class="k-pager-wrap"></div>
+        </div>
+    </div>
+    <!--Popup for Item Details-->
+    <div id="itemDetails" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 class="modal-title" id="dt_itemName"></h3>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <img src="~/Assets/Images/twl2.JPG" alt="ite image" class="img-thumbnail-details" />
+                        </div>
+                        <div class="col-lg-5">
+                            <div style="padding-bottom: 10px;">
+                                <label id="dt_itemPrice" class="label label-success">$ 500.00</label>
+                                <span id="dt_itemCondition" class="label label-info">New</span>
+                                <label id="dt_itemAvailable" class="label label-danger">In Stock</label>
+                            </div>
+                            <div><strong>Color(s):</strong> <span id="dt_itemColor"></span></div>
+                            <div><strong>Size:</strong> <span id="dt_itemSize"></span></div>
+                            <div>
+                                <strong>Shipping:</strong> <span id="dt_itemWeight"></span>
+                                <label id="dt_itemShipping" class="label label-default"></label>
+                            </div>
+                            <div id="dt_itemDesc"></div>
+                            <div style="padding-top: 8px;">
+                                <button type="button" id="btnBuy" class="btn btn-warning" style="padding: 4px 40px;">Buy</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@Html.Hidden("cateSel")
+@Html.Hidden("brandSel")
+@Html.Hidden("colorSel")
+@Html.Hidden("sizeSel")
+<input type="hidden" value="@Session["sKey"]" id="sKey" />
+<script type="text/javascript">
+    var searchParam = {
+        ProductName: '',
+        CategoryId: '',
+        PriceMinimum: '',
+        PriceMaximum: '',
+        BrandId: '',
+        OtherFilter: '',
+        Color: '',
+        Size: ''
+    };
+
+    var itemLink = '';
+
+    function SearchParamInit() {
+        searchParam["ProductName"] = '';
+        searchParam["CategoryId"] = '';
+        searchParam["PriceMinimum"] = '';
+        searchParam["PriceMaximum"] = '';
+        searchParam["BrandId"] = '';
+        searchParam["OtherFilter"] = '';
+    }
+
+    $(document).ajaxError(function (evt, xhr) {
+        try {
+            SearchParamInit();
+            var json = $.parseJSON(xhr.responseText);
+            alert(json.errorMessage);
+        } catch (e) {
+            alert("something bad happened");
+        }
+    });
+
+    $(document).ready(function () {
+        //Set placeholders for browsers having issues with Html5
+        $('#txtSearch').placeholder();
+        itemLink = '';
+        $('#colorGroup').hide();
+        $('#sizeGroup').hide();
+
+        //check value from index
+        if (!isNullOrWhitespace($('#sKey').val())) {
+            ProductSearch($('#sKey').val());
+        }
+
+    });//end of document-ready
+
+    $('#btnSearch').click(function () {
+        searchParam["ProductName"] = $('#txtSearch').val();
+        searchParam["CategoryId"] = $('#cateSel').val();
+        searchParam["OtherFilter"] = $('#otherFilter').val();
+        searchParam["BrandId"] = $('#brandSel').val();
+        searchParam["Color"] = $('#colorSel').val();
+        searchParam["Size"] = $('#sizeSel').val();
+
+        myApp.showPleaseWait();
+        $.ajax({
+            url: "@Url.Action("GetProducts","Home")",
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(searchParam),
+            success: function(result) {
+                SearchProducts(result);
+                myApp.hidePleaseWait();
+            }
+        });
+    });
+
+    function ProductSearch(sKey) {
+        searchParam["ProductName"] = sKey;
+
+        myApp.showPleaseWait();
+        $.ajax({
+            url: "@Url.Action("GetProducts","Home")",
+            type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(searchParam),
+        success: function(result) {
+            SearchProducts(result);
+            myApp.hidePleaseWait();
+            $('#txtSearch').val(sKey);
+        }
+    });
+    }
+
+    function onCategorySelect(e) {
+        var dataItem = this.dataItem(e.node);
+        $('#cateSel').val(dataItem.id);
+
+        //Get new list of colors
+        $.ajax({
+            url: "@Url.Action("_GetColors","Home")",
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ Id: dataItem.id }),
+            success: function (colorResult) {
+                var colors = $('#colorTreeview').data('kendoTreeView');
+                colors.setDataSource(colorResult);
+
+                $('#colorSel').val('');
+                if (colorResult.length <= 0) {
+
+                    $('#colorGroup').hide();
+                } else {
+                    $('#colorGroup').show();
+                }
+            }
+        });
+
+        //Get new list of sizes
+        $.ajax({
+            url: "@Url.Action("_GetSizes", "Home")",
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ Id: dataItem.id }),
+            success: function(sizeResult) {
+                var sizes = $('#sizeTreeview').data('kendoTreeView');
+                sizes.setDataSource(sizeResult);
+                $('#sizeSel').val('');
+
+                if (sizeResult.length <= 0) {
+                    $('#sizeGroup').hide();
+                } else {
+                    $('#sizeGroup').show();
+                }
+
+                //Search for the products
+                searchParam["ProductName"] = $('#txtSearch').val();
+                searchParam["CategoryId"] = dataItem.id;
+                searchParam["OtherFilter"] = $('#otherFilter').val();
+                searchParam["BrandId"] = $('#brandSel').val();
+                searchParam["Color"] = $('#colorSel').val();
+                searchParam["Size"] = $('#sizeSel').val();
+
+                myApp.showPleaseWait();
+                $.ajax({
+                    url: "@Url.Action("GetProducts","Home")",
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(searchParam),
+                    success: function(result) {
+                        SearchProducts(result);
+                        myApp.hidePleaseWait();
+                    }
+                });
+            }
+        });
+    }
+
+    function onBrandSelect(e) {
+        var dataItem = this.dataItem(e.node);
+
+        searchParam["ProductName"] = $('#txtSearch').val();
+        searchParam["CategoryId"] = $('#cateSel').val();
+        searchParam["BrandId"] = dataItem.id;
+        searchParam["OtherFilter"] = $('#otherFilter').val();
+        searchParam["Color"] = $('#colorSel').val();
+        searchParam["Size"] = $('#sizeSel').val();
+
+        $('#brandSel').val(dataItem.id);
+
+        myApp.showPleaseWait();
+        $.ajax({
+            url: "@Url.Action("GetProducts","Home")",
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(searchParam),
+            success: function(result) {
+                SearchProducts(result);
+                myApp.hidePleaseWait();
+            }
+        });
+    }
+
+    function onColorSelect(e) {
+        var dataItem = this.dataItem(e.node);
+
+        searchParam["ProductName"] = $('#txtSearch').val();
+        searchParam["CategoryId"] = $('#cateSel').val();
+        searchParam["BrandId"] = $('#brandSel').val();
+        searchParam["OtherFilter"] = $('#otherFilter').val();
+        searchParam["Color"] = dataItem.text;
+        searchParam["Size"] = $('#sizeSel').val();
+
+        $('#colorSel').val(dataItem.text);
+
+        myApp.showPleaseWait();
+        $.ajax({
+            url: "@Url.Action("GetProducts","Home")",
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(searchParam),
+            success: function(result) {
+                SearchProducts(result);
+                myApp.hidePleaseWait();
+            }
+        });
+    }
+
+    function onSizeSelect(e) {
+        var dataItem = this.dataItem(e.node);
+
+        searchParam["ProductName"] = $('#txtSearch').val();
+        searchParam["CategoryId"] = $('#cateSel').val();
+        searchParam["BrandId"] = $('#brandSel').val();
+        searchParam["OtherFilter"] = $('#otherFilter').val();
+        searchParam["Color"] = $('#colorSel').val();
+        searchParam["Size"] = dataItem.text;
+
+        $('#sizeSel').val(dataItem.text);
+
+        myApp.showPleaseWait();
+        $.ajax({
+            url: "@Url.Action("GetProducts","Home")",
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(searchParam),
+            success: function(result) {
+                SearchProducts(result);
+                myApp.hidePleaseWait();
+            }
+        });
+    }
+
+    $('#otherFilter').on('change', function () {
+        var otFilter = $(this).val();
+
+        searchParam["ProductName"] = $('#txtSearch').val();
+        searchParam["CategoryId"] = $('#cateSel').val();
+        searchParam["BrandId"] = $('#brandSel').val();
+        searchParam["OtherFilter"] = otFilter;
+        searchParam["Color"] = $('#colorSel').val();
+        searchParam["Size"] = $('#sizeSel').val();
+
+        myApp.showPleaseWait();
+        $.ajax({
+            url: "@Url.Action("GetProducts","Home")",
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(searchParam),
+            success: function(result) {
+                SearchProducts(result);
+                myApp.hidePleaseWait();
+            }
+        });
+
+    });
+
+    function GetCategories() {
+        $.ajax({
+            url: "@Url.Action("GetCategories","Home")",
+            type: 'POST',
+            contentType: 'application/json',
+            success: function(result) {
+                var dd = $('#categories').data('kendoComboBox');
+                dd.setDataSource(result);
+            }
+        });
+    }
+
+    function SearchProducts(result) {
+        var ds = new kendo.data.DataSource({
+            data: result,
+            pageSize: 20
+        });
+
+        $('#productList').kendoListView({
+            dataSource: ds,
+            pageable: true,
+            template: kendo.template($('#template').html())
+        });
+
+        $('#pager').kendoPager({
+            dataSource: ds
+        });
+
+        SearchParamInit();
+    }
+
+    //Modal Function
+    function getItemDetails(code) {
+        initDetailData();
+
+        $.ajax({
+            url: "@Url.Action("GetItemByCode", "Home")",
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ItemCode:code}),
+            success: function(result) {
+                //Prepare details
+                $('#dt_itemName').text(result.Name);
+                $('.img-thumbnail-details').attr('src', result.Image);
+                $('#dt_itemCondition').text(result.Condition);
+                $('#dt_itemAvailable').text(result.Availability);
+                $('#dt_itemColor').text(result.Color);
+                $('#dt_itemSize').text(result.Size);
+                $('#dt_itemWeight').text(result.Weight);
+                $('#dt_itemShipping').text(result.Shipping);
+                $('#dt_itemDesc').text(result.Description);
+                $('#dt_itemPrice').text("$ " + result.Price);
+                itemLink = result.SourceLink;
+                //show modal
+                $('#itemDetails').modal('show');
+            }
+        });
+    }
+
+    function initDetailData() {
+        $('#dt_itemName').text('');
+        $('.img-thumbnail-details').attr('src', '#');
+        $('#dt_itemCondition').text('');
+        $('#dt_itemAvailable').text('');
+        $('#dt_itemColor').text('');
+        $('#dt_itemSize').text('');
+        $('#dt_itemWeight').text('');
+        $('#dt_itemShipping').text('');
+        $('#dt_itemDesc').text('');
+        $('#dt_itemPrice').text('0.00');
+        itemLink = '';
+    }
+
+    $('#btnBuy').on('click', function() {
+        itemLink = $.trim(itemLink);
+        if (itemLink.length > 0) {
+            window.open(itemLink);
+        }
+    });
+</script>

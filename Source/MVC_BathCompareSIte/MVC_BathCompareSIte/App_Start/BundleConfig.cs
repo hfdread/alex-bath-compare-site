@@ -54,6 +54,14 @@ namespace MVC_BathCompareSIte
                     "~/Content/bootstrap.css"
                 ));
 
+            bundles.Add(new ScriptBundle("~/bundles/angularjs").Include(
+                "angular.js",
+                "angular-animate.js",
+                "angular-aria.js",
+                "angular-messages.js",
+                "angular-sanitize.js"
+                ));
+
             bundles.IgnoreList.Clear();
         }
     }
