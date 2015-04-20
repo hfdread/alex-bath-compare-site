@@ -18,5 +18,6 @@ namespace MVC_BathCompareSIte.Service
         UserDTO GetUser(UserDTO input);
         string AddAdmin(UserDTO input);
         UserDTO AdminLogin(AdminLoginForm input);
+        AdminDTO SetLoginKey(AdminDTO dto);
     }
 }

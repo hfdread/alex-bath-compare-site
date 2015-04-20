@@ -16,5 +16,7 @@ namespace MVC_BathCompareSIte.Forms
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
+
+        public string error { get; set; }
     }
 }

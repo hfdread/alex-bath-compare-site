@@ -175,7 +175,6 @@
     <Compile Include="Common.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
-    <Compile Include="Controllers\AdminPanelController.cs" />
     <Compile Include="Controllers\CPanelController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -189,6 +188,7 @@
     <Compile Include="DAO\TypeDAO.cs" />
     <Compile Include="DAO\UserDAO.cs" />
     <Compile Include="DAO\UserDAOImpl.cs" />
+    <Compile Include="DTO\AdminDTO.cs" />
     <Compile Include="DTO\BrandDTO.cs" />
     <Compile Include="DTO\CategoryDTO.cs" />
     <Compile Include="DTO\InventoryDTO.cs" />
@@ -1963,16 +1963,8 @@
     <Content Include="Scripts\kendo\kendo.web.min.js.map" />
     <Content Include="Scripts\kendo\kendo.window.min.js.map" />
     <Content Include="Views\Search\Test.cshtml" />
-    <Content Include="Views\Admin\Dashboard.cshtml" />
-    <Content Include="Views\Admin\Users.cshtml" />
-    <Content Include="Views\Admin\Categories.cshtml" />
-    <Content Include="Views\Admin\Brands.cshtml" />
-    <Content Include="Views\Admin\Items.cshtml" />
     <Content Include="Views\Shared\_DashboardMenu.cshtml" />
-    <Content Include="Views\Admin\EditorTemplates\PopupCategory.cshtml" />
-    <Content Include="Views\Admin\EditorTemplates\PopupItem.cshtml" />
     <Content Include="Views\Admin\ItemBulkUpload.cshtml" />
-    <Content Include="Views\Admin\EditorTemplates\PopupUser.cshtml" />
     <Content Include="Views\Shared\_LayoutCommon.cshtml" />
     <Content Include="Views\CPanel\Index.cshtml" />
     <Content Include="Views\CPanel\UserDashboard.cshtml" />
@@ -1981,12 +1973,9 @@
     <Content Include="Views\Home\AddAdmin.cshtml" />
     <Content Include="Views\Home\Search.cshtml" />
     <Content Include="Scripts\version.json" />
-    <Content Include="Views\AdminPanel\Index.cshtml" />
-    <Content Include="Views\AdminPanel\Create.cshtml" />
-    <Content Include="Views\AdminPanel\Delete.cshtml" />
-    <Content Include="Views\AdminPanel\Details.cshtml" />
-    <Content Include="Views\AdminPanel\Edit.cshtml" />
     <Content Include="Views\Shared\CPanels\_LoginLayout.cshtml" />
+    <Content Include="Views\Shared\CPanels\_LoginDashboard.cshtml" />
+    <Content Include="Views\Admin\AdminDashboard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

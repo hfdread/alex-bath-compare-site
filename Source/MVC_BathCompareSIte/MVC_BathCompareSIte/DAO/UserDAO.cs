@@ -21,5 +21,7 @@ namespace MVC_BathCompareSIte.DAO
 
         int AddAdminUser(UserDTO input);
         UserDTO LoginAdmin(AdminLoginForm form);
+
+        int SetLoginKey(AdminUsers admin);
     }
 }

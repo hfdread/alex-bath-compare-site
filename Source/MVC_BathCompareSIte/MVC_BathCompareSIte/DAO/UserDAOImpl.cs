@@ -169,5 +169,27 @@ namespace MVC_BathCompareSIte.DAO
             }
             return dto;
         }
+
+        public int SetLoginKey(AdminUsers admin)
+        {
+            var nResult = 0;
+            if (string.IsNullOrWhiteSpace(admin.Security))
+            {
+                return nResult;
+            }
+
+            //update record with security key
+            using (_dbContext = new ItemDbContext())
+            {
+                var model = _dbContext.AdminUsers.FirstOrDefault(q => q.Id.Equals(admin.Id));
+                if (model != null)
+                {
+                    model.Security = admin.Security;
+                    nResult = _dbContext.SaveChanges();
+                }
+            }
+
+            return nResult;
+        }
     }
 }

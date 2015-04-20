@@ -5,6 +5,7 @@ using System.Web;
 using MVC_BathCompareSIte.DAO;
 using MVC_BathCompareSIte.DTO;
 using MVC_BathCompareSIte.Forms;
+using MVC_BathCompareSIte.Models;
 using MVC_BathCompareSIte.Utils;
 
 namespace MVC_BathCompareSIte.Service
@@ -120,8 +121,7 @@ namespace MVC_BathCompareSIte.Service
 
         public UserDTO GetUser(UserDTO input)
         {
-            var dto = new UserDTO();
-            dto.ErrorList = new List<string>();
+            var dto = new UserDTO {ErrorList = new List<string>()};
 
             try
             {
@@ -140,7 +140,7 @@ namespace MVC_BathCompareSIte.Service
             }
             catch (Exception e)
             {
-                dto.ErrorList = new List<string>{e.Message};
+                dto = new UserDTO { ErrorList = new List<string> { e.Message } };
             }
 
             return dto;
@@ -168,7 +168,7 @@ namespace MVC_BathCompareSIte.Service
 
         public UserDTO AdminLogin(AdminLoginForm form)
         {
-            var dto = new UserDTO();
+            UserDTO dto;
             try
             {
                 form.Password = string.IsNullOrWhiteSpace(form.Password) ? "" : cUtils.Encrypt(form.Password);
@@ -178,6 +178,32 @@ namespace MVC_BathCompareSIte.Service
             catch (Exception e)
             {
                 dto = new UserDTO{ErrorList = new List<string>{e.Message}};
+            }
+
+            return dto;
+        }
+
+        public AdminDTO SetLoginKey(AdminDTO input)
+        {
+            AdminDTO dto;
+            try
+            {
+                var model = new AdminUsers
+                {
+                    Id = Convert.ToInt32(input.Id),
+                    Username = input.Username,
+                    Password = input.Password,
+                    Security = input.Security
+                };
+
+                _dao.SetLoginKey(model);
+
+                dto = input;
+
+            }
+            catch (Exception e)
+            {
+                dto = new AdminDTO{ ErrorList = new List<string>{e.Message}};
             }
 
             return dto;

@@ -55,11 +55,11 @@ namespace MVC_BathCompareSIte
                 ));
 
             bundles.Add(new ScriptBundle("~/bundles/angularjs").Include(
-                "angular.js",
-                "angular-animate.js",
-                "angular-aria.js",
-                "angular-messages.js",
-                "angular-sanitize.js"
+                "~/Scripts/angular.js",
+                "~/Scripts/angular-animate.js",
+                "~/Scripts/angular-aria.js",
+                "~/Scripts/angular-messages.js",
+                "~/Scripts/angular-sanitize.js"
                 ));
 
             bundles.IgnoreList.Clear();

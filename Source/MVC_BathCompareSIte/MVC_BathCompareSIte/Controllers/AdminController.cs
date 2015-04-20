@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using MVC_BathCompareSIte.DTO;
 using MVC_BathCompareSIte.Forms;
-using MVC_BathCompareSIte.Models;
 using MVC_BathCompareSIte.Service;
-using Newtonsoft.Json;
+using MVC_BathCompareSIte.Utils;
 
 namespace MVC_BathCompareSIte.Controllers
 {
@@ -17,37 +14,37 @@ namespace MVC_BathCompareSIte.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Title = "Log In";
+            ViewBag.Title = "Site Administrator";
             return View();
         }
 
         public ActionResult Dashboard()
         {
-            ViewBag.Title = "Dashboard";
+            ViewBag.Title = "Administrator [Dashboard]";
             return View();
         }
 
         public ActionResult Users()
         {
-            ViewBag.Title = "User Management";
+            ViewBag.Title = "Administrator [User Management]";
             return View();
         }
 
         public ActionResult Categories()
         {
-            ViewBag.Title = "Category Management";
+            ViewBag.Title = "Administrator [Category Management]";
             return View();
         }
 
         public ActionResult Brands()
         {
-            ViewBag.Title = "Brands Management";
+            ViewBag.Title = "Administrator [Brands Management]";
             return View();
         }
 
         public ActionResult Items()
         {
-            ViewBag.Title = "Item Management";
+            ViewBag.Title = "Administrator [Item Management]";
             return View();
         }
 
@@ -57,6 +54,7 @@ namespace MVC_BathCompareSIte.Controllers
         public ActionResult LogIn(AdminLoginForm form)
         {
             ViewBag.Error = "";
+            ViewBag.Title = "Site Administrator";
             if (!ModelState.IsValid)
             {
                 return View("Index", form);
@@ -64,21 +62,23 @@ namespace MVC_BathCompareSIte.Controllers
 
             UserService service =new UserServiceImpl();
             UserDTO dto = service.AdminLogin(form);
-            if (dto != null)
+            if (dto != null && dto.ErrorList == null)
             {
+                //Create key for session
+                var randKey = cUtils.Encrypt(string.Format("{0}{1}", dto.Email, Session.LCID));
+
+                Session.Add("userkey",randKey);
                 return RedirectToAction("Dashboard");
             }
-            else
+            
+            if (dto != null && dto.ErrorList != null)
             {
-                ViewBag.Error = dto.ErrorList[0].Trim();
+                ViewBag.Error = dto.ErrorList[0];
                 return View("Index", form);
             }
-            //if (form.Username.Equals("admin") && form.Password.Equals("admin123"))
-            //{
-            //    return RedirectToAction("Dashboard");
-            //}
 
-            return View("Index", form);   
+            ViewBag.Error = "Username and password does not match!";
+            return View("Index", form);
         }
 
         public ActionResult LogOut()
